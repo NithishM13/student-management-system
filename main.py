@@ -1,8 +1,8 @@
 from PyQt6.QtWidgets import QMainWindow, QApplication, QVBoxLayout, QLabel, QWidget, \
     QGridLayout, QLineEdit, QPushButton, QTableWidget, QTableWidgetItem, QDialog, \
-    QComboBox
+    QComboBox, QToolBar
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QAction
+from PyQt6.QtGui import QAction, QIcon
 import sys
 import sqlite3
 
@@ -12,19 +12,20 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Student Management System")
+        self.setMinimumSize(800, 400)
         grid = QGridLayout()
 
         file_menu_item = self.menuBar().addMenu("&File")
         help_menu_item = self.menuBar().addMenu("&Help")
 
-        add_student_action = QAction("Add Student", self)
+        add_student_action = QAction(QIcon("icons/add.png"), "Add Student", self)
         add_student_action.triggered.connect(self.insert)
         file_menu_item.addAction(add_student_action)
 
         about_action = QAction("About", self)
         help_menu_item.addAction(about_action)
 
-        search_student_action = QAction("Search", self)
+        search_student_action = QAction(QIcon("icons/search.png"), "Search", self)
         search_student_action.triggered.connect(self.search)
         help_menu_item.addAction(search_student_action)
 
@@ -33,6 +34,12 @@ class MainWindow(QMainWindow):
         self.table.setHorizontalHeaderLabels(("ID", "Name", "Course", "Mobile-No"))
         self.table.verticalHeader().setVisible(False)
         self.setCentralWidget(self.table)
+
+        tool_bar = QToolBar()
+        tool_bar.setMovable(True)
+        self.addToolBar(tool_bar)
+        tool_bar.addAction(add_student_action)
+        tool_bar.addAction(search_student_action)
 
     def load_table(self):
         connection = sqlite3.connect("database.db")
@@ -129,6 +136,7 @@ class SearchDialog(QDialog):
         rows = list(findings)
         items = main_window.table.findItems(name, Qt.MatchFlag.MatchFixedString)
         for item in items:
+            print(item)
             main_window.table.item(item.row(), 1).setSelected(True)
 
         cursor.close()
