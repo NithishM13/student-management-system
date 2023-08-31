@@ -1,3 +1,4 @@
+# Importing required libraries and classes
 from PyQt6.QtWidgets import QMainWindow, QApplication, QVBoxLayout, QLabel, QWidget, \
     QGridLayout, QLineEdit, QPushButton, QTableWidget, QTableWidgetItem, QDialog, \
     QComboBox, QToolBar, QStatusBar, QMessageBox
@@ -7,6 +8,7 @@ import sys
 import sqlite3
 
 
+# Class for connecting to database
 class DatabaseConnection:
     def __init__(self, database_path = "database.db"):
         self.database_path = database_path
@@ -16,6 +18,7 @@ class DatabaseConnection:
         return connection
 
 
+# Main window
 class MainWindow(QMainWindow):
 
     def __init__(self):
@@ -98,19 +101,23 @@ class MainWindow(QMainWindow):
         dialog = SearchDialog()
         dialog.exec()
 
+    # Create edit dialog window
     def edit(self):
         dialog = EditDialog()
         dialog.exec()
 
+    # Create delete dialog window
     def delete(self):
         dialog = DeleteDialog()
         dialog.exec()
 
+    # Create about dialog window
     def about(self):
         dialog = AboutDialog()
         dialog.exec()
 
 
+# Class for inserting data into database
 class InsertDialog(QDialog):
     def __init__(self):
         super().__init__()
@@ -159,6 +166,7 @@ class InsertDialog(QDialog):
         main_window.load_table()
 
 
+# Class for searching student records
 class SearchDialog(QDialog):
     def __init__(self):
         super().__init__()
@@ -193,6 +201,7 @@ class SearchDialog(QDialog):
         connection.close()
 
 
+# Class for editing or updating the records
 class EditDialog(QDialog):
     def __init__(self):
         super().__init__()
@@ -251,6 +260,7 @@ class EditDialog(QDialog):
         self.close()
 
 
+# Class for deleting records
 class DeleteDialog(QDialog):
     def __init__(self):
         super().__init__()
@@ -292,6 +302,7 @@ class DeleteDialog(QDialog):
         successful_message.exec()
 
 
+# About dialog window
 class AboutDialog(QMessageBox):
     def __init__(self):
         super().__init__()
